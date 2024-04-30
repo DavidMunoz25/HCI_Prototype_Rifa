@@ -1,0 +1,121 @@
+<!--  
+    David Muñoz Peña
+    davidmunozpena25@gmail.com
+--> 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Formulario</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    form {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 5px;
+        transition: all 0.3s ease;
+    }
+
+    input {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        transition: all 0.3s ease;
+    }
+
+    input.selected {
+        border-color: green;
+        transform: scale(1.05);
+    }
+
+    input:not(.selected) {
+        transform: scale(0.95);
+    }
+
+    input[type="submit"] {
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        padding: 10px 20px;
+        transition: background-color 0.3s ease;
+    }
+
+    input[type="submit"]:hover {
+        background-color: #45a049;
+    }
+</style>
+</head>
+<body>
+
+<form id="myForm">
+    <label for="objectCount">Número de objetos en el contenedor:</label>
+    <input type="text" id="objectCount" name="objectCount" pattern="[0-9]+" required>
+
+    <label for="fullName">Nombre y Apellidos:</label>
+    <input type="text" id="fullName" name="fullName" pattern="[A-Za-z ]+" required>
+
+    <label for="electoralKey">Clave electoral:</label>
+    <input type="text" id="electoralKey" name="electoralKey" required>
+
+    <label for="phone">Teléfono:</label>
+    <input type="tel" id="phone" name="phone" pattern="[0-9]{10}" required>
+
+    <input type="submit" value="Enviar" onclick="confirmData()">
+</form>
+
+<script>
+    function confirmData() {
+        const formData = new FormData(document.getElementById('myForm'));
+        let message = 'Confirmar datos:\n\n';
+        for (let pair of formData.entries()) {
+            message += pair[0] + ': ' + pair[1] + '\n';
+        }
+        if (confirm(message)) {
+            // Aquí iría el código para enviar el formulario
+            alert('Formulario enviado');
+        }
+    }
+
+    const inputs = document.querySelectorAll('input');
+
+    inputs.forEach(input => {
+        input.addEventListener('focus', function() {
+            inputs.forEach(otherInput => {
+                if (otherInput !== input) {
+                    otherInput.classList.remove('selected');
+                    otherInput.style.transform = 'scale(0.95)';
+                    otherInput.previousElementSibling.style.transform = 'scale(0.95)';
+                }
+            });
+
+            input.classList.add('selected');
+            input.style.transform = 'scale(1.05)';
+            input.previousElementSibling.style.transform = 'scale(1.05)';
+        });
+    });
+</script>
+
+</body>
+</html>
